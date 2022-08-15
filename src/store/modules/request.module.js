@@ -20,7 +20,7 @@ export default {
     async create({ commit, dispatch }, payload) {
       try {
         const token = store.getters['auth/token']
-        const { data } = await axios.post(`/requests.json/auth=${token}`, payload)
+        const { data } = await axios.post(`/requests.json?auth=${token}`, payload)
         console.log('Дата:', data);
         commit('addRequest', {...payload, id: data.name})
         dispatch('setMessage', {

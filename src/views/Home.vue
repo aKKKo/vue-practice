@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {ref, computed} from 'vue'
+import { ref, computed } from 'vue'
 import AppPage from '../components/ui/AppPage'
 import RequestTable from '../components/request/RequestTable'
 import RequestModal from '../components/request/RequestModal'
