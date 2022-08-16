@@ -1,5 +1,6 @@
 <template>
-  <app-page title="Спиок заявок">
+  <app-loader v-if="loading" />
+  <app-page title="Спиок заявок" v-else>
     <template #header>
       <button class="btn primary" @click="modal = true">Создать</button>
     </template>
@@ -15,25 +16,33 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import AppPage from '../components/ui/AppPage'
 import RequestTable from '../components/request/RequestTable'
 import RequestModal from '../components/request/RequestModal'
 import AppModal from '../components/ui/AppModal'
+import AppLoader from '../components/ui/AppLoader'
 import { useStore } from 'vuex'
 
 export default {
   setup() {
     const store = useStore()
-
     const modal = ref(false)
+    const loading = ref(false)
+
+    onMounted(async () => {
+      loading.value = true
+      await store.dispatch('request/load')
+      loading.value = false
+    })
     const requests = computed(() => store.getters['request/requests'])
 
     return {
       modal,
-      requests
+      requests,
+      loading
     }
   },
-  components: { AppPage, RequestTable, AppModal, RequestModal }
+  components: { AppPage, RequestTable, AppModal, RequestModal, AppLoader }
 }
 </script>
